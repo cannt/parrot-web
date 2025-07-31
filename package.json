@@ -1,0 +1,32 @@
+{
+  "name": "ar-drone-controller",
+  "version": "1.0.0",
+  "description": "AR Drone Controller - Real-time web-based drone control application",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "concurrently \"npm run dev:api\" \"npm run dev:web\"",
+    "dev:api": "npm run dev --workspace=@ar-drone-controller/api",
+    "dev:web": "npm run dev --workspace=@ar-drone-controller/web",
+    "build": "npm run build --workspaces",
+    "build:api": "npm run build --workspace=@ar-drone-controller/api",
+    "build:web": "npm run build --workspace=@ar-drone-controller/web",
+    "test": "npm run test --workspaces",
+    "test:api": "npm run test --workspace=@ar-drone-controller/api",
+    "test:web": "npm run test --workspace=@ar-drone-controller/web",
+    "lint": "npm run lint --workspace=@ar-drone-controller/web",
+    "install-all": "npm install"
+  },
+  "keywords": ["ar-drone", "controller", "websocket", "react", "express", "typescript"],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  },
+  "engines": {
+    "node": "20.11.0",
+    "npm": ">=10.0.0"
+  }
+}

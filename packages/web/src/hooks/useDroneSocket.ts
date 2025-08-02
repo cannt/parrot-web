@@ -12,8 +12,8 @@ interface UseDroneSocketReturn {
   reconnectDrone: () => void;
 }
 
-const WEBSOCKET_URL = import.meta.env.VITE_WS_URL || 'ws://localhost:3001';
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+const WEBSOCKET_URL = (import.meta as any).env?.VITE_WS_URL || 'ws://localhost:3001';
+const API_URL = (import.meta as any).env?.VITE_API_URL || 'http://localhost:3001';
 
 // Validation function for telemetry data
 const isValidTelemetryData = (data: any): data is DroneTelemetry => {

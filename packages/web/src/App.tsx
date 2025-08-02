@@ -31,7 +31,7 @@ function App() {
       {/* Header - Fixed height */}
       <header className="bg-gray-800 text-white p-3 flex-shrink-0">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <h1 className="text-xl font-bold">AR Drone Controller v1.1 🚁</h1>
+          <h1 className="text-xl font-bold">AR Drone Controller v1.2 🚁✨</h1>
           
           {/* Connection Status Indicators */}
           <div className="flex items-center space-x-3">

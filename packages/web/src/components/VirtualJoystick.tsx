@@ -95,9 +95,10 @@ export const VirtualJoystick: React.FC<VirtualJoystickProps> = ({
     returnToCenter();
   }, [returnToCenter]);
 
-  // Touch events
+  // Touch events - Enhanced for mobile responsiveness
   const handleTouchStart = useCallback((e: React.TouchEvent) => {
     e.preventDefault();
+    e.stopPropagation(); // Prevent event bubbling
     setIsDragging(true);
     const touch = e.touches[0];
     updatePosition(touch.clientX, touch.clientY);
@@ -106,11 +107,16 @@ export const VirtualJoystick: React.FC<VirtualJoystickProps> = ({
   const handleTouchMove = useCallback((e: TouchEvent) => {
     if (!isDragging) return;
     e.preventDefault();
+    e.stopPropagation(); // Prevent scrolling conflicts
     const touch = e.touches[0];
-    updatePosition(touch.clientX, touch.clientY);
+    if (touch) {
+      updatePosition(touch.clientX, touch.clientY);
+    }
   }, [isDragging, updatePosition]);
 
-  const handleTouchEnd = useCallback(() => {
+  const handleTouchEnd = useCallback((e: TouchEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
     returnToCenter();
   }, [returnToCenter]);
 
@@ -120,7 +126,8 @@ export const VirtualJoystick: React.FC<VirtualJoystickProps> = ({
       document.addEventListener('mousemove', handleMouseMove);
       document.addEventListener('mouseup', handleMouseUp);
       document.addEventListener('touchmove', handleTouchMove, { passive: false });
-      document.addEventListener('touchend', handleTouchEnd);
+      document.addEventListener('touchend', handleTouchEnd, { passive: false });
+      document.addEventListener('touchcancel', handleTouchEnd, { passive: false });
     }
 
     return () => {
@@ -128,6 +135,7 @@ export const VirtualJoystick: React.FC<VirtualJoystickProps> = ({
       document.removeEventListener('mouseup', handleMouseUp);
       document.removeEventListener('touchmove', handleTouchMove);
       document.removeEventListener('touchend', handleTouchEnd);
+      document.removeEventListener('touchcancel', handleTouchEnd);
     };
   }, [isDragging, handleMouseMove, handleMouseUp, handleTouchMove, handleTouchEnd]);
 
@@ -150,7 +158,7 @@ export const VirtualJoystick: React.FC<VirtualJoystickProps> = ({
       
       <div
         ref={containerRef}
-        className="relative bg-gray-800 rounded-full border-2 border-gray-600 cursor-grab active:cursor-grabbing select-none touch-manipulation"
+        className="relative bg-gray-800 rounded-full border-2 border-gray-600 cursor-grab active:cursor-grabbing select-none touch-manipulation user-select-none"
         style={{ width: size, height: size }}
         onMouseDown={handleMouseDown}
         onTouchStart={handleTouchStart}
@@ -177,11 +185,11 @@ export const VirtualJoystick: React.FC<VirtualJoystickProps> = ({
           }}
         />
 
-        {/* Joystick knob */}
+        {/* Joystick knob - Enhanced mobile feedback */}
         <div
           ref={knobRef}
-          className={`absolute bg-blue-500 rounded-full border-2 border-blue-400 transition-all duration-75 ${
-            isDragging ? 'bg-blue-400 shadow-lg scale-110' : 'shadow-md'
+          className={`absolute bg-blue-500 rounded-full border-2 border-blue-400 transition-all duration-100 ${
+            isDragging ? 'bg-blue-400 shadow-lg scale-110 border-blue-300' : 'shadow-md hover:bg-blue-400'
           }`}
           style={{
             width: knobSize,

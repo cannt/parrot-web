@@ -35,7 +35,7 @@ export const FullScreenControl: React.FC<FullScreenControlProps> = ({
       // Exit fullscreen icon (minimize/compress)
       return (
         <svg 
-          className="w-5 h-5" 
+          className="w-4 h-4 sm:w-5 sm:h-5" 
           fill="none" 
           stroke="currentColor" 
           viewBox="0 0 24 24"
@@ -52,7 +52,7 @@ export const FullScreenControl: React.FC<FullScreenControlProps> = ({
       // Enter fullscreen icon (expand)
       return (
         <svg 
-          className="w-5 h-5" 
+          className="w-4 h-4 sm:w-5 sm:h-5" 
           fill="none" 
           stroke="currentColor" 
           viewBox="0 0 24 24"
@@ -77,7 +77,7 @@ export const FullScreenControl: React.FC<FullScreenControlProps> = ({
     <button
       onClick={handleToggleFullscreen}
       disabled={isLoading}
-      className={`flex items-center justify-center p-2 rounded-lg font-medium transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed ${
+      className={`flex items-center justify-center min-w-[44px] min-h-[44px] p-2 rounded-lg font-medium transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed touch-manipulation ${
         isFullscreen 
           ? 'bg-orange-600 hover:bg-orange-700 text-white' 
           : 'bg-gray-600 hover:bg-gray-700 text-white'
@@ -86,7 +86,7 @@ export const FullScreenControl: React.FC<FullScreenControlProps> = ({
       aria-label={isFullscreen ? 'Exit full screen mode' : 'Enter full screen mode'}
     >
       {isLoading ? (
-        <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+        <div className="animate-spin rounded-full h-4 w-4 sm:h-5 sm:w-5 border-b-2 border-white"></div>
       ) : (
         getFullscreenIcon()
       )}

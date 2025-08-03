@@ -95,45 +95,45 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({
 
   return (
     <div className={`relative bg-black rounded-lg overflow-hidden ${className}`}>
-      {/* Image Element for PNG frames */}
+      {/* Image Element for PNG frames - Mobile optimized */}
       <img
         ref={imgRef}
-        className="w-full h-full object-cover"
+        className="w-full h-full object-cover touch-manipulation"
         alt="Drone video stream"
         src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgZmlsbD0iIzMzMzMzMyIvPjx0ZXh0IHg9IjUwIiB5PSI1MCIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzk5OTk5OSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPk5vIFZpZGVvPC90ZXh0Pjwvc3ZnPg=="
       />
 
-      {/* Status Overlay */}
-      <div className="absolute top-4 left-4 z-10">
-        <div className="flex items-center space-x-2 bg-black bg-opacity-60 rounded-lg px-3 py-2">
+      {/* Status Overlay - Mobile responsive */}
+      <div className="absolute top-2 left-2 sm:top-4 sm:left-4 z-10">
+        <div className="flex items-center space-x-2 bg-black bg-opacity-70 rounded-lg px-2 py-1 sm:px-3 sm:py-2">
           <div className={`w-2 h-2 rounded-full ${getStatusColor().replace('text-', 'bg-')}`} />
-          <span className={`text-sm font-medium ${getStatusColor()}`}>
+          <span className={`text-xs sm:text-sm font-medium ${getStatusColor()}`}>
             {getStatusText()}
           </span>
         </div>
       </div>
 
-      {/* Video Info Overlay (when connected) */}
+      {/* Video Info Overlay (when connected) - Mobile responsive */}
       {connectionStatus === 'connected' && videoData && (
-        <div className="absolute bottom-4 right-4 z-10">
-          <div className="bg-black bg-opacity-60 rounded-lg px-3 py-2 text-white text-xs">
-            <div>Seq: {videoData.sequenceNumber}</div>
+        <div className="absolute bottom-2 right-2 sm:bottom-4 sm:right-4 z-10">
+          <div className="bg-black bg-opacity-70 rounded-lg px-2 py-1 sm:px-3 sm:py-2 text-white text-xs">
+            <div className="hidden sm:block">Seq: {videoData.sequenceNumber}</div>
             <div>Latency: {Date.now() - videoData.timestamp}ms</div>
           </div>
         </div>
       )}
 
-      {/* No Stream Placeholder */}
+      {/* No Stream Placeholder - Mobile optimized */}
       {connectionStatus === 'disconnected' && (
         <div className="absolute inset-0 flex items-center justify-center bg-gray-900">
-          <div className="text-center text-gray-400">
-            <div className="w-16 h-16 mx-auto mb-4 bg-gray-700 rounded-full flex items-center justify-center">
-              <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
+          <div className="text-center text-gray-400 px-4">
+            <div className="w-12 h-12 sm:w-16 sm:h-16 mx-auto mb-3 sm:mb-4 bg-gray-700 rounded-full flex items-center justify-center">
+              <svg className="w-6 h-6 sm:w-8 sm:h-8" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm3 2h6v4l2-2v6l-2-2v4H7V3z" clipRule="evenodd" />
               </svg>
             </div>
-            <p className="text-lg font-medium">No Video Stream</p>
-            <p className="text-sm">Waiting for drone connection...</p>
+            <p className="text-base sm:text-lg font-medium">No Video Stream</p>
+            <p className="text-xs sm:text-sm">Waiting for drone connection...</p>
           </div>
         </div>
       )}

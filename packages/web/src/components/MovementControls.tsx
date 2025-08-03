@@ -68,27 +68,27 @@ export const MovementControls: React.FC<MovementControlsProps> = ({
 
   return (
     <div className={`${className}`}>
-      <div className="flex justify-center items-center space-x-4">
+      <div className="flex justify-center items-center space-x-2 sm:space-x-4">
         {/* Left Joystick - Movement (Pitch/Roll) */}
         <div className="flex flex-col items-center">
           <VirtualJoystick
             onPositionChange={handleLeftJoystickChange}
-            size={80}
-            knobSize={28}
+            size={60}
+            knobSize={20}
+            className={`touch-manipulation ${disabled ? 'opacity-50 pointer-events-none' : ''}`}
             label=""
-            className={disabled ? 'opacity-50 pointer-events-none' : ''}
             data-testid="joystick-movement"
           />
           <div className="mt-1 text-center">
             <div className="text-xs text-blue-400 font-medium">Move</div>
-            <div className="text-xs text-gray-500">WASD</div>
+            <div className="text-xs text-gray-500 hidden sm:block">WASD</div>
           </div>
         </div>
 
         {/* Center info */}
-        <div className="text-center px-2">
+        <div className="text-center px-1 sm:px-2">
           <div className="text-xs text-gray-400">🕹️</div>
-          <div className="text-xs text-yellow-300">
+          <div className="text-xs text-yellow-300 hidden sm:block">
             {disabled ? 'Off' : 'Hover'}
           </div>
         </div>
@@ -97,15 +97,15 @@ export const MovementControls: React.FC<MovementControlsProps> = ({
         <div className="flex flex-col items-center">
           <VirtualJoystick
             onPositionChange={handleRightJoystickChange}
-            size={80}
-            knobSize={28}
+            size={60}
+            knobSize={20}
+            className={`touch-manipulation ${disabled ? 'opacity-50 pointer-events-none' : ''}`}
             label=""
-            className={disabled ? 'opacity-50 pointer-events-none' : ''}
             data-testid="joystick-altitude---rotation"
           />
           <div className="mt-1 text-center">
             <div className="text-xs text-green-400 font-medium">Alt</div>
-            <div className="text-xs text-gray-500">↑↓←→</div>
+            <div className="text-xs text-gray-500 hidden sm:block">↑↓←→</div>
           </div>
         </div>
       </div>

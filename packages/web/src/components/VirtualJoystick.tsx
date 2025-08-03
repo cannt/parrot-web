@@ -150,7 +150,7 @@ export const VirtualJoystick: React.FC<VirtualJoystickProps> = ({
       
       <div
         ref={containerRef}
-        className="relative bg-gray-800 rounded-full border-2 border-gray-600 cursor-grab active:cursor-grabbing select-none"
+        className="relative bg-gray-800 rounded-full border-2 border-gray-600 cursor-grab active:cursor-grabbing select-none touch-manipulation"
         style={{ width: size, height: size }}
         onMouseDown={handleMouseDown}
         onTouchStart={handleTouchStart}

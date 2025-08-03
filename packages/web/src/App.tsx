@@ -63,10 +63,10 @@ function App() {
         )}
       </header>
 
-      {/* Main Content - Takes remaining height */}
-      <main className="flex-1 flex overflow-hidden min-h-0">
+      {/* Main Content - Responsive layout */}
+      <main className="flex-1 flex flex-col lg:flex-row overflow-hidden min-h-0">
         {/* Video Player - Main View */}
-        <div className="flex-1 p-2 min-w-0">
+        <div className="flex-1 p-1 sm:p-2 min-w-0 order-1 lg:order-1">
           <VideoPlayer 
             videoData={latestVideoData}
             isStreamActive={isVideoStreamActive}
@@ -74,14 +74,14 @@ function App() {
           />
         </div>
 
-        {/* Right Sidebar - Controls and Telemetry */}
-        <aside className="w-80 bg-gray-800 text-white flex flex-col overflow-hidden">
-          {/* Scrollable Content */}
-          <div className="flex-1 overflow-y-auto p-2 space-y-2">
-            {/* Quick Status Bar */}
-            <div className="bg-gray-700 p-2 rounded-lg">
-              <div className="flex items-center justify-between text-sm">
-                <div className="flex items-center space-x-3">
+        {/* Controls - Mobile: Bottom, Desktop: Right Sidebar */}
+        <aside className="w-full h-48 sm:h-56 lg:w-80 lg:h-auto bg-gray-800 text-white flex flex-col overflow-hidden order-2 lg:order-2">
+          {/* Mobile-optimized controls */}
+          <div className="flex-1 overflow-y-auto p-1 sm:p-2">
+            {/* Compact Status Bar for Mobile */}
+            <div className="bg-gray-700 p-1 sm:p-2 rounded-lg mb-1 sm:mb-2">
+              <div className="flex items-center justify-between text-xs sm:text-sm">
+                <div className="flex items-center space-x-2 sm:space-x-3">
                   <div className={`flex items-center space-x-1 ${
                     latestTelemetry?.flightState === 'flying' ? 'text-green-400' :
                     latestTelemetry?.flightState === 'landed' ? 'text-blue-400' :
@@ -92,21 +92,21 @@ function App() {
                       latestTelemetry?.flightState === 'landed' ? 'bg-blue-500' :
                       'bg-gray-500'
                     }`} />
-                    <span className="capitalize">{latestTelemetry?.flightState || 'unknown'}</span>
+                    <span className="capitalize text-xs sm:text-sm">{latestTelemetry?.flightState || 'unknown'}</span>
                   </div>
-                  <div className="text-blue-400">
+                  <div className="text-blue-400 text-xs sm:text-sm">
                     ⚡ {latestTelemetry?.batteryPercentage || 0}%
                   </div>
                 </div>
-                <div className={`text-xs px-2 py-1 rounded ${keyboardActive ? 'bg-green-600' : 'bg-gray-600'}`}>
+                <div className={`text-xs px-1 sm:px-2 py-1 rounded ${keyboardActive ? 'bg-green-600' : 'bg-gray-600'}`}>
                   KB: {keyboardActive ? 'ON' : 'OFF'}
                 </div>
               </div>
             </div>
 
-            {/* Flight Controls - Compact */}
-            <div className="bg-gray-900 rounded-lg p-3">
-              <div className="flex space-x-2 mb-2">
+            {/* Flight Controls - Touch-optimized */}
+            <div className="bg-gray-900 rounded-lg p-2 sm:p-3">
+              <div className="flex space-x-1 sm:space-x-2 mb-2">
                 <button
                   onClick={() => {
                     const isFlying = latestTelemetry?.flightState === 'flying' || latestTelemetry?.flightState === 'hovering';
@@ -115,43 +115,55 @@ function App() {
                       timestamp: Date.now()
                     });
                   }}
-                  className="flex-1 py-2 px-3 rounded bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium"
+                  className="flex-1 py-3 sm:py-2 px-2 sm:px-3 rounded bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white text-xs sm:text-sm font-medium touch-manipulation"
                 >
                   {latestTelemetry?.flightState === 'flying' || latestTelemetry?.flightState === 'hovering' ? '⬇ Land' : '⬆ Takeoff'}
                 </button>
                 <button
                   onClick={() => sendCommand({ type: 'EMERGENCY_STOP', timestamp: Date.now() })}
-                  className="px-3 py-2 rounded bg-red-600 hover:bg-red-700 text-white text-sm font-medium"
+                  className="px-3 sm:px-3 py-3 sm:py-2 rounded bg-red-600 hover:bg-red-700 active:bg-red-800 text-white text-xs sm:text-sm font-medium touch-manipulation"
                 >
-                  🛑 Stop
+                  🛑
                 </button>
                 <button
                   onClick={() => sendCommand({ type: 'SWITCH_CAMERA', timestamp: Date.now() })}
-                  className="px-3 py-2 rounded bg-purple-600 hover:bg-purple-700 text-white text-sm font-medium"
+                  className="px-3 sm:px-3 py-3 sm:py-2 rounded bg-purple-600 hover:bg-purple-700 active:bg-purple-800 text-white text-xs sm:text-sm font-medium touch-manipulation"
                 >
                   📷
                 </button>
               </div>
               
-              {/* Recovery buttons */}
+              {/* Recovery buttons - Mobile optimized */}
               <div className="flex space-x-1">
                 <button
                   onClick={() => sendCommand({ type: 'RESET_EMERGENCY', timestamp: Date.now() })}
-                  className="flex-1 py-1 px-2 rounded bg-orange-600 hover:bg-orange-700 text-white text-xs font-medium"
+                  className="flex-1 py-2 sm:py-1 px-2 rounded bg-orange-600 hover:bg-orange-700 active:bg-orange-800 text-white text-xs font-medium touch-manipulation"
                 >
                   🔄 Reset
                 </button>
                 <button
                   onClick={reconnectDrone}
-                  className="flex-1 py-1 px-2 rounded bg-yellow-600 hover:bg-yellow-700 text-white text-xs font-medium"
+                  className="flex-1 py-2 sm:py-1 px-2 rounded bg-yellow-600 hover:bg-yellow-700 active:bg-yellow-800 text-white text-xs font-medium touch-manipulation"
                 >
                   🔌 Reconnect
                 </button>
               </div>
             </div>
 
-            {/* Keyboard Controls - Compact */}
-            <div className="bg-gray-900 rounded-lg p-2">
+            {/* Virtual Joysticks for Mobile */}
+            <div className="block lg:hidden">
+              <div className="bg-gray-900 rounded-lg p-2">
+                <h3 className="text-xs sm:text-sm font-semibold mb-2 text-center">🕹️ Touch Controls</h3>
+                <MovementControls
+                  onCommand={sendCommand}
+                  disabled={!isDroneConnected}
+                  className="h-32 sm:h-40"
+                />
+              </div>
+            </div>
+
+            {/* Keyboard Controls - Compact (Desktop only) */}
+            <div className="hidden lg:block bg-gray-900 rounded-lg p-2">
               <h3 className="text-sm font-semibold mb-1 flex items-center justify-between">
                 <span>⌨️ Keyboard</span>
                 <div className={`w-2 h-2 rounded-full ${keyboardActive ? 'bg-green-500' : 'bg-gray-500'}`} />

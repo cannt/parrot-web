@@ -2,10 +2,8 @@
 import { useDroneSocket } from './hooks/useDroneSocket';
 import { useKeyboardControls } from './hooks/useKeyboardControls';
 import VideoPlayer from './components/VideoPlayer';
-import FlightControls from './components/FlightControls';
 import MovementControls from './components/MovementControls';
-import CameraSwitchControl from './components/CameraSwitchControl';
-import KeyboardControls from './components/KeyboardControls';
+import FullScreenControl from './components/FullScreenControl';
 
 function App() {
   const { 
@@ -33,7 +31,7 @@ function App() {
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <h1 className="text-xl font-bold">AR Drone Controller v1.3 🚁✨</h1>
           
-          {/* Connection Status Indicators */}
+          {/* Connection Status Indicators and Controls */}
           <div className="flex items-center space-x-3">
             <div className="flex items-center space-x-1">
               <div className={`w-2 h-2 rounded-full ${
@@ -53,6 +51,9 @@ function App() {
               }`} />
               <span className="text-xs">Video</span>
             </div>
+            
+            {/* Full Screen Control */}
+            <FullScreenControl className="ml-2" />
           </div>
         </div>
         

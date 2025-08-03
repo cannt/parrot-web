@@ -158,7 +158,7 @@ export const VirtualJoystick: React.FC<VirtualJoystickProps> = ({
       
       <div
         ref={containerRef}
-        className="relative bg-gray-800 rounded-full border-2 border-gray-600 cursor-grab active:cursor-grabbing select-none touch-manipulation user-select-none"
+        className="relative bg-gray-800 rounded-full border-2 border-gray-600 cursor-grab active:cursor-grabbing select-none touch-manipulation user-select-none no-zoom"
         style={{ width: size, height: size }}
         onMouseDown={handleMouseDown}
         onTouchStart={handleTouchStart}
@@ -188,8 +188,8 @@ export const VirtualJoystick: React.FC<VirtualJoystickProps> = ({
         {/* Joystick knob - Enhanced mobile feedback */}
         <div
           ref={knobRef}
-          className={`absolute bg-blue-500 rounded-full border-2 border-blue-400 transition-all duration-100 ${
-            isDragging ? 'bg-blue-400 shadow-lg scale-110 border-blue-300' : 'shadow-md hover:bg-blue-400'
+          className={`absolute bg-blue-500 rounded-full border-3 border-blue-400 transition-all duration-150 ${
+            isDragging ? 'bg-blue-400 shadow-2xl scale-110 border-blue-300 ring-4 ring-blue-300/50' : 'shadow-lg hover:bg-blue-400 hover:scale-105'
           }`}
           style={{
             width: knobSize,

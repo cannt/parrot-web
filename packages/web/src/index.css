@@ -1,3 +1,41 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Enhanced mobile touch interaction styles */
+@layer utilities {
+  .touch-manipulation {
+    touch-action: manipulation;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+  
+  .border-3 {
+    border-width: 3px;
+  }
+  
+  /* Prevent zoom on double tap for mobile controls */
+  .no-zoom {
+    touch-action: manipulation;
+  }
+}
+
+/* Global styles for better mobile experience */
+html {
+  touch-action: manipulation;
+  -webkit-text-size-adjust: none;
+}
+
+/* Improve button press feedback on mobile */
+button {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Better backdrop blur support */
+.backdrop-blur-sm {
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}

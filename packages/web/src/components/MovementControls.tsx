@@ -1,11 +1,14 @@
 import React, { useCallback, useRef } from 'react';
 import { VirtualJoystick } from './VirtualJoystick';
 import { MovementPayload, ControlCommand } from '../types/types';
+import { useViewport } from '../hooks/useViewport';
 
 // Mobile-optimized constants for touch controls
-const MOBILE_JOYSTICK_SIZE = 80;  // Optimized for touch interaction
-const MOBILE_KNOB_SIZE = 28;      // Large enough for finger control
-const COMMAND_THROTTLE_MS = 50;   // 20 FPS for smooth control
+const MOBILE_JOYSTICK_SIZE = 100;  // Larger for better touch interaction
+const DESKTOP_JOYSTICK_SIZE = 80;  // Smaller for desktop
+const MOBILE_KNOB_SIZE = 36;       // Larger for finger control
+const DESKTOP_KNOB_SIZE = 28;      // Smaller for desktop
+const COMMAND_THROTTLE_MS = 50;    // 20 FPS for smooth control
 
 interface MovementControlsProps {
   onCommand: (command: ControlCommand) => void;
@@ -23,6 +26,7 @@ export const MovementControls: React.FC<MovementControlsProps> = ({
   className = '',
   disabled = false
 }) => {
+  const { isMobile } = useViewport();
   const leftJoystickRef = useRef({ x: 0, y: 0 });
   const rightJoystickRef = useRef({ x: 0, y: 0 });
   const commandThrottleRef = useRef<NodeJS.Timeout>();
@@ -71,30 +75,25 @@ export const MovementControls: React.FC<MovementControlsProps> = ({
     throttledSendCommand();
   }, [throttledSendCommand]);
 
+  const joystickSize = isMobile ? MOBILE_JOYSTICK_SIZE : DESKTOP_JOYSTICK_SIZE;
+  const knobSize = isMobile ? MOBILE_KNOB_SIZE : DESKTOP_KNOB_SIZE;
+
   return (
     <div className={`${className}`}>
-      <div className="flex justify-center items-center space-x-3 sm:space-x-4">
+      <div className="flex justify-between items-center w-full max-w-sm mx-auto sm:space-x-4">
         {/* Left Joystick - Movement (Pitch/Roll) - Mobile optimized */}
         <div className="flex flex-col items-center">
           <VirtualJoystick
             onPositionChange={handleLeftJoystickChange}
-            size={MOBILE_JOYSTICK_SIZE}
-            knobSize={MOBILE_KNOB_SIZE}
+            size={joystickSize}
+            knobSize={knobSize}
             className={`touch-manipulation ${disabled ? 'opacity-50 pointer-events-none' : ''}`}
             label=""
             data-testid="joystick-movement"
           />
           <div className="mt-2 text-center">
             <div className="text-sm text-blue-400 font-medium">Move</div>
-            <div className="text-xs text-gray-500 hidden sm:block">WASD</div>
-          </div>
-        </div>
-
-        {/* Center info - Mobile optimized */}
-        <div className="text-center px-2">
-          <div className="text-sm text-gray-400">🕹️</div>
-          <div className="text-xs text-yellow-300 hidden sm:block">
-            {disabled ? 'Off' : 'Hover'}
+            <div className="text-xs text-gray-400">⇅ ⇅</div>
           </div>
         </div>
 
@@ -102,15 +101,15 @@ export const MovementControls: React.FC<MovementControlsProps> = ({
         <div className="flex flex-col items-center">
           <VirtualJoystick
             onPositionChange={handleRightJoystickChange}
-            size={MOBILE_JOYSTICK_SIZE}
-            knobSize={MOBILE_KNOB_SIZE}
+            size={joystickSize}
+            knobSize={knobSize}
             className={`touch-manipulation ${disabled ? 'opacity-50 pointer-events-none' : ''}`}
             label=""
             data-testid="joystick-altitude---rotation"
           />
           <div className="mt-2 text-center">
-            <div className="text-sm text-green-400 font-medium">Alt</div>
-            <div className="text-xs text-gray-500 hidden sm:block">↑↓←→</div>
+            <div className="text-sm text-green-400 font-medium">Alt/Turn</div>
+            <div className="text-xs text-gray-400">↑↓ ↻</div>
           </div>
         </div>
       </div>

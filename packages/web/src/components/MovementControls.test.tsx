@@ -4,9 +4,9 @@ import { MovementControls } from './MovementControls';
 
 // Mock VirtualJoystick component
 vi.mock('./VirtualJoystick', () => ({
-  VirtualJoystick: ({ onPositionChange, label, className }: any) => (
+  VirtualJoystick: ({ onPositionChange, label, className, 'data-testid': dataTestId }: any) => (
     <div 
-      data-testid={`joystick-${label.toLowerCase().replace(/[^a-z0-9]/g, '-')}`}
+      data-testid={dataTestId || `joystick-${label.toLowerCase().replace(/[^a-z0-9]/g, '-')}`}
       className={className}
       onClick={() => onPositionChange({ x: 0.5, y: 0.5 })}
     >

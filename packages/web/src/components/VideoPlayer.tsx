@@ -55,8 +55,8 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({
           imgRef.current.src = dataUrl;
           imgRef.current.setAttribute('data-last-update', now.toString());
           
-          // Log only every 30 frames to reduce console spam
-          if (videoData.sequenceNumber % 30 === 0) {
+          // Log only every 30 frames to reduce console spam (development only)
+          if (process.env.NODE_ENV === 'development' && videoData.sequenceNumber % 30 === 0) {
             console.log(`Video frame ${videoData.sequenceNumber}, size: ${base64Data.length} chars`);
           }
         }

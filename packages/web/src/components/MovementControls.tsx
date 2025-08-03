@@ -2,6 +2,11 @@ import React, { useCallback, useRef } from 'react';
 import { VirtualJoystick } from './VirtualJoystick';
 import { MovementPayload, ControlCommand } from '../types/types';
 
+// Mobile-optimized constants for touch controls
+const MOBILE_JOYSTICK_SIZE = 80;  // Optimized for touch interaction
+const MOBILE_KNOB_SIZE = 28;      // Large enough for finger control
+const COMMAND_THROTTLE_MS = 50;   // 20 FPS for smooth control
+
 interface MovementControlsProps {
   onCommand: (command: ControlCommand) => void;
   className?: string;
@@ -53,7 +58,7 @@ export const MovementControls: React.FC<MovementControlsProps> = ({
     // Set up throttling for continuous movement
     commandThrottleRef.current = setTimeout(() => {
       commandThrottleRef.current = undefined;
-    }, 50); // 20 FPS for smooth control
+    }, COMMAND_THROTTLE_MS);
   }, [sendMovementCommand]);
 
   const handleLeftJoystickChange = useCallback((position: { x: number; y: number }) => {
@@ -73,8 +78,8 @@ export const MovementControls: React.FC<MovementControlsProps> = ({
         <div className="flex flex-col items-center">
           <VirtualJoystick
             onPositionChange={handleLeftJoystickChange}
-            size={80}
-            knobSize={28}
+            size={MOBILE_JOYSTICK_SIZE}
+            knobSize={MOBILE_KNOB_SIZE}
             className={`touch-manipulation ${disabled ? 'opacity-50 pointer-events-none' : ''}`}
             label=""
             data-testid="joystick-movement"
@@ -97,8 +102,8 @@ export const MovementControls: React.FC<MovementControlsProps> = ({
         <div className="flex flex-col items-center">
           <VirtualJoystick
             onPositionChange={handleRightJoystickChange}
-            size={80}
-            knobSize={28}
+            size={MOBILE_JOYSTICK_SIZE}
+            knobSize={MOBILE_KNOB_SIZE}
             className={`touch-manipulation ${disabled ? 'opacity-50 pointer-events-none' : ''}`}
             label=""
             data-testid="joystick-altitude---rotation"

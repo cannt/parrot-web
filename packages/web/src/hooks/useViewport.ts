@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 
 interface ViewportInfo {
   width: number;
@@ -32,6 +32,8 @@ export const useViewport = (): ViewportInfo => {
   });
 
   useEffect(() => {
+    let timeoutId: NodeJS.Timeout;
+    
     const updateViewport = () => {
       const width = window.innerWidth;
       const height = window.innerHeight;
@@ -47,6 +49,14 @@ export const useViewport = (): ViewportInfo => {
       });
     };
 
+    const handleOrientationChange = () => {
+      // Clear any pending timeout
+      if (timeoutId) clearTimeout(timeoutId);
+      
+      // Small delay to allow browser to update dimensions
+      timeoutId = setTimeout(updateViewport, 100);
+    };
+
     // Set initial values
     updateViewport();
 
@@ -54,14 +64,14 @@ export const useViewport = (): ViewportInfo => {
     window.addEventListener('resize', updateViewport);
     
     // Listen for orientation change events specifically
-    window.addEventListener('orientationchange', () => {
-      // Small delay to allow browser to update dimensions
-      setTimeout(updateViewport, 100);
-    });
+    window.addEventListener('orientationchange', handleOrientationChange);
 
     return () => {
       window.removeEventListener('resize', updateViewport);
-      window.removeEventListener('orientationchange', updateViewport);
+      window.removeEventListener('orientationchange', handleOrientationChange);
+      
+      // Clear any pending timeout
+      if (timeoutId) clearTimeout(timeoutId);
     };
   }, []);
 
